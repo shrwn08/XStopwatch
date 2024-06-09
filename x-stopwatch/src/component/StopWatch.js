@@ -6,7 +6,7 @@ const StopWatch = () => {
   const [startBtn, setStartBtn] = useState(false);
   const intervalRef = useRef(null);
 
-  const handleStartBtn = () => {
+  const handleStartStopBtn = () => {
     if (!startBtn) {
       setStartBtn(true);
       intervalRef.current = setInterval(() => {
@@ -14,12 +14,16 @@ const StopWatch = () => {
           if (prevSecond === 59) {
             setMinutes((prevminutes)=>prevminutes + 1);
             return 0;
-          }else{
+          }
+          else {
             return prevSecond + 1;
           }
         });
         
       }, 1000);
+    }else{
+      clearInterval(intervalRef.current)
+      setStartBtn(false)
     }
   };
 
@@ -37,9 +41,9 @@ const StopWatch = () => {
     >
       <h1>Stopwatch</h1>
       <p>
-        Time:&nbsp; {minutes}:{second}
+        Time:&nbsp; {minutes}:{second < 10 ? `0${second}`:second}
       </p>
-      <button onClick={handleStartBtn}>Start</button>
+      <button onClick={handleStartStopBtn}>{startBtn?'Stop':'Start'}</button>
       <button onClick={handleResetBtn}>Reset</button>
     </div>
   );
